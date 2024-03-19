@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     title:{
   
       position: 'absolute',
-      top: 35,
+      top: 20,
       fontSize:20,
       fontWeight:'bold',
       
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     height:3,
     width:'90%',
     backgroundColor: 'black',
-    top:65,
+    top:55,
     position:'absolute',
   
   },

@@ -2,10 +2,12 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 
 
-export default function Home({navigation}) {
+export default function Home() {
+  const navigation = useNavigation();
   const navToDetail = () => {
     navigation.navigate('AddToDoItem')
   }
@@ -15,6 +17,22 @@ export default function Home({navigation}) {
       <Text style={styles.title}>My Todo List</Text>
       <View style={styles.lineTop}></View>
       <StatusBar style="auto" />
+
+      <View style={styles.listContainer}>
+
+      <View style={styles.listItemBox}>
+      <Text style={styles.listItemText}>Sweep Floors</Text>
+      </View>
+      
+      <View style={styles.listItemBox}>
+      <Text style={styles.listItemText}>Walk Dog</Text>
+      </View>
+      
+      <View style={styles.listItemBox}>
+      <Text style={styles.listItemText}>Finish Codeing Assignment</Text>
+      </View>
+
+      </View>
       <View style={styles.lineBottom}></View>
       <View style={styles.addButton}>
       <Button title='Add New Item' onPress={navToDetail} color={'white'}/>
@@ -31,12 +49,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     
+    
   },
 
 title:{
   
     position: 'absolute',
-    top: 35,
+    top: 20,
     fontSize:20,
     fontWeight:'bold',
     
@@ -48,7 +67,7 @@ lineTop:{
   height:3,
   width:'90%',
   backgroundColor: 'black',
-  top:65,
+  top:55,
   position:'absolute',
 
 },
@@ -72,6 +91,37 @@ addButton:{
   width:'90%',
   fontWeight:'bold',
   
+},
+
+listContainer:{
+height:'70%',
+backgroundColor:'white',
+width:'90%',
+bottom:15,
+
+
+},
+listItemBox:{
+
+  flexDirection:'column',
+  justifyContent:'flex-start',
+  alignContent:'center',
+  backgroundColor:'blue',
+  width:'90%',
+  marginLeft:15,
+  padding:8,
+  marginTop:8,
+  borderRadius:8,
+
+},
+
+listItemText:{
+
+
+fontWeight:'bold',
+color:'white',
+
+
 },
 
 
