@@ -3,6 +3,7 @@ import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import ImageButton from '../Components/ImageButton';
 
 
 
@@ -34,9 +35,11 @@ export default function Home() {
 
       </View>
       <View style={styles.lineBottom}></View>
-      <View style={styles.addButton}>
-      <Button title='Add New Item' onPress={navToDetail} color={'white'}/>
-      </View>
+      {/* <View styles={styles.addButton}> */}
+<ImageButton color='blue' title={' Add To-do Item'} onPress={navToDetail}/>
+      {/* <View style={styles.addButton}>
+      <Button title='Add New Item' onPress={navToDetail} icon = 'add-circle' color={'white'}/>
+      // </View> */}
     </View>
    
   );
@@ -82,16 +85,17 @@ lineBottom:{
 
 },
 
-addButton:{
+// addButton:{
 
-  bottom: 40,
-  position:"absolute",
-  flexDirection:'column',
-  backgroundColor: 'blue',
-  width:'90%',
-  fontWeight:'bold',
+//   bottom: 40,
+//   position:"absolute",
+//   flexDirection:'column',
+//   backgroundColor: 'blue',
+//   width:'90%',
+//   // height:'5%',
+//   fontWeight:'bold',
   
-},
+// },
 
 listContainer:{
 height:'70%',
