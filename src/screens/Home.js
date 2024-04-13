@@ -4,42 +4,130 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import ImageButton from '../Components/ImageButton';
+import { saveData, loadData, updateSave } from '../DataModel/AppData';
+import { useState, useEffect } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AddToDoItem } from './AddToDoItem';
+import BackButton from '../Components/BackButton';
+import { FlatList, RefreshControl } from 'react-native-gesture-handler';
+import { useRoute } from '@react-navigation/native';
+import { useFocusEffect } from '@react-navigation/native';
 
 
 
 export default function Home() {
+
+
   const navigation = useNavigation();
+  const [taskTitle, setTitle] = useState('');
+  const [taskDes, setDes] = useState('');
+  const [data, setData] = useState([]);
+  const [count, setCount] =useState(0)
+ 
+
+
+  //Total Items in to do List 
+useEffect(() => {
+  const temp = data.length;
+  setCount(temp);
+}, [data])
+
+
+// Navigation Button Handler 
   const navToDetail = () => {
     navigation.navigate('AddToDoItem')
   }
+
+  //Load Data on screen change 
+    useFocusEffect(
+      React.useCallback(() => {
+        const loadDataFromStorage = async () => {
+          try {
+            const loadedData = await loadData();
+            setData(loadedData || []);
+            setCount(loadedData.length || 0);
+            
+          } catch (error) {
+            console.error('Error loading data:', error);
+          }
+        };
+        loadDataFromStorage();
+      }, [])
+    );
+
+
+    //Page Refresh (load data)
+    const loadDataFromStorage = async () => {
+      try {
+        const loadedData = await loadData();
+        setData(loadedData || []);
+        setCount(loadedData.length || 0);
+        
+      } catch (error) {
+        console.error('Error loading data:', error);
+      }
+     
+    };
+    
+  
+  
+  //Clear Storage
+const clearAsyncStorage = async () => {
+  try {
+    await AsyncStorage.clear();
+    console.log('Async storage cleared successfully.');
+    setData([])
+  } catch (error) {
+    console.log('Failed to clear async storage:', error);
+  }
+};
+
+//Remove Item from Storage
+const removeItemFromStorage = async (keyToRemove) => {
+  try {
+
+
+    const updatedData = data.filter(item => item.taskTitle !== keyToRemove);
+
+    await AsyncStorage.clear();
+    updateSave(updatedData)
+    loadDataFromStorage()
+    console.log(updatedData)
+    console.log(`Item with key '${keyToRemove}' removed successfully.`);
+    console.log(data)
+  } catch (error) {
+    console.log(`Failed to remove item with key '${keyToRemove}':`, error);
+  }
+};
+console.log(data)
+
   return (
     
     <View style={styles.container}>
-      <Text style={styles.title}>My Todo List</Text>
+      <Text style={styles.title}>My Todo List {count} </Text>
       <View style={styles.lineTop}></View>
       <StatusBar style="auto" />
 
       <View style={styles.listContainer}>
+ 
 
-      <View style={styles.listItemBox}>
-      <Text style={styles.listItemText}>Sweep Floors</Text>
-      </View>
-      
-      <View style={styles.listItemBox}>
-      <Text style={styles.listItemText}>Walk Dog</Text>
-      </View>
-      
-      <View style={styles.listItemBox}>
-      <Text style={styles.listItemText}>Finish Codeing Assignment</Text>
-      </View>
 
+<FlatList data={data} keyExtractor={(item)=> item.id}  renderItem={({item})=>
+<View style={styles.listItemBox}>
+  <Text style={styles.listItemText}>{item.taskTitle}</Text>
+  <Text style={styles.listItemText}>{item.taskDes}</Text>
+  <Button title='Delete' style={styles.testB}onPress={() => removeItemFromStorage(item.taskTitle)} />
+  </View>}>
+
+</FlatList>
+
+     
       </View>
       <View style={styles.lineBottom}></View>
-      {/* <View styles={styles.addButton}> */}
-<ImageButton color='blue' title={' Add To-do Item'} onPress={navToDetail}/>
-      {/* <View style={styles.addButton}>
-      <Button title='Add New Item' onPress={navToDetail} icon = 'add-circle' color={'white'}/>
-      // </View> */}
+     
+<ImageButton color='blue' title={' Add To-do Item'} onPress={navToDetail} />
+<ImageButton onPress={clearAsyncStorage}/>
+      
     </View>
    
   );
@@ -85,17 +173,7 @@ lineBottom:{
 
 },
 
-// addButton:{
 
-//   bottom: 40,
-//   position:"absolute",
-//   flexDirection:'column',
-//   backgroundColor: 'blue',
-//   width:'90%',
-//   // height:'5%',
-//   fontWeight:'bold',
-  
-// },
 
 listContainer:{
 height:'70%',
@@ -123,8 +201,16 @@ listItemText:{
 
 
 fontWeight:'bold',
-color:'white',
+color:'black',
 
+
+},
+
+testB:{
+
+color:'white',
+backgroundColor:'white',
+alignContent:'center'
 
 },
 

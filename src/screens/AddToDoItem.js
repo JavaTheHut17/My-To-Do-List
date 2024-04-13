@@ -1,32 +1,59 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, View, Button, ScrollViewComponent } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import BackButton from '../Components/BackButton';
 import SaveButton from '../Components/SaveButton';
 import { useNavigation } from '@react-navigation/native';
-import { useState } from 'react';
-import { ScrollView, TextInput } from 'react-native-gesture-handler';
+import { useEffect, useState } from 'react';
+import { RefreshControl, ScrollView, TextInput } from 'react-native-gesture-handler';
+import { saveData, loadData } from '../DataModel/AppData';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-
+ 
 export function AddToDoItem() {
   const navigation = useNavigation();
-  const [text, setText] = useState('abc')
+  const [taskTitle, setTitle] = useState('');
+  const [taskDes, setDes] = useState('');
+
+const setTitleHandler = (val) =>setTitle(val)
+const setDesHandler =(val) => setDes(val)
+
+
+
+//Save Button Handler
+const SubmitHandler =() => {
+  
+  saveData({taskTitle, taskDes})
+  // loadDataFromStorage();
+
+  
+}
+
+// Back Button Handler
+const navToDetail = async () => {
+  navigation.navigate('Home')
+  
+}
+
+  
   return (
+
     <View style={styles.container}>
       <Text style={styles.title}>My Todo List</Text>
       <View style={styles.lineTop}></View>
       <StatusBar style="auto" />
       <Text style={styles.TextBoxTitle}>Title:</Text>
-      <TextInput style={styles.TitleTextBox} placeholder='Enter Title:'></TextInput>
+      <TextInput style={styles.TitleTextBox} placeholder='Enter Title:' value={taskTitle} onChangeText={setTitleHandler}></TextInput>
 
       <Text style={styles.TextBoxBody}>Description:</Text>
-      <TextInput multiline={true} numberOfLines={4} style={styles.BodyTextBox} placeholder='Enter Description:'>
+      <TextInput multiline={true} numberOfLines={4} style={styles.BodyTextBox} placeholder='Enter Description:'
+      value={taskDes} onChangeText={setDesHandler}>
       </TextInput>
 
 
       <View style={styles.NavButton}>
-      <BackButton title=' Back' onPress={navigation.goBack}></BackButton>
-      <SaveButton  title=' Save' ></SaveButton>
+      <BackButton title=' Back' onPress={navToDetail}></BackButton>
+      <SaveButton  title=' Save' onPress={SubmitHandler} ></SaveButton>
      
       </View>
     </View>
