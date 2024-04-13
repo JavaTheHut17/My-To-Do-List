@@ -92,14 +92,14 @@ const removeItemFromStorage = async (keyToRemove) => {
     await AsyncStorage.clear();
     updateSave(updatedData)
     loadDataFromStorage()
-    console.log(updatedData)
+    
     console.log(`Item with key '${keyToRemove}' removed successfully.`);
-    console.log(data)
+    
   } catch (error) {
     console.log(`Failed to remove item with key '${keyToRemove}':`, error);
   }
 };
-console.log(data)
+
 
   return (
     

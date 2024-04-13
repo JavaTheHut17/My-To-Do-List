@@ -25,19 +25,15 @@ export async function saveData( MyData) {
     try{
     
          const existingData = await loadData();
-        
       
          const dataArray = Array.isArray(existingData) ? existingData : [];
-     
-        
-        
+    
          dataArray.push(MyData);
         
         const str = JSON.stringify(dataArray)
        
-       
         await AsyncStorage.setItem(key, str)
-        console.log(key, MyData)
+        
         
         
     }catch(e){
@@ -53,7 +49,7 @@ try{
        
    
     await AsyncStorage.setItem(key, str)
-    console.log('second Save', key, MyData)
+    
 }catch(e)
 {
     console.log('error')
