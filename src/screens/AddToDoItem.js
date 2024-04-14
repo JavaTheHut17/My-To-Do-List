@@ -96,8 +96,6 @@ const styles = StyleSheet.create({
 
   NavButton: {
     flexDirection: "row",
-    // top:140,
-    // width:'80%',
   },
   TitleTextBox: {
     width: 300,

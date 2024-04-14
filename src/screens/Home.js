@@ -90,7 +90,7 @@ export default function Home() {
   const colorHandler = (taskTitle) => {
     setSelectedItem(taskTitle);
   };
-//Caret Arrow Changer
+  //Caret Arrow Changer
   const toggleBoxPress = () => {
     setIsBoxPressed(!isBoxPressed);
 
@@ -229,7 +229,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "black",
     padding: 10,
-    // fontStyle:'bold',
     fontSize: 15,
   },
   listItemTextBody: {
@@ -247,23 +246,11 @@ const styles = StyleSheet.create({
   },
 
   delIcon: {
-    // alignItems:'flex-end',
-
-    // padding:3,
-    // marginRight:100,
-    // marginLeft:20,
-    // justifyContent:'flex-end',
-    // flex:1,
-    // alignSelf:'center',
     opacity: 0.9,
-    // flexDirection:'row',
     marginRight: 50,
   },
 
-  tickIcon: {
-    // flexDirection:'row',
-    // alignSelf:'flex-end',
-  },
+  tickIcon: {},
   iconBox: {
     flexDirection: "row",
     alignContent: "center",
